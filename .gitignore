@@ -1,0 +1,6 @@
+/build
+/cmake-build-debug
+/.vscode
+/.cache
+/SDL2
+/.idea
