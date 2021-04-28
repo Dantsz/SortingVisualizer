@@ -4,9 +4,15 @@ typedef struct {
 
 } Context;
 
-typedef void(*sortFunction)(unsigned*,unsigned,void(*)(Context*),Context*);
+typedef struct{
+  unsigned* data;
+  unsigned size;
 
-void sortF(unsigned* arr,unsigned size,void(*callBack)(Context*),Context* context);
+}Array;
 
-void sortBubble(unsigned* arr,unsigned size,void(*callBack)(Context*),Context* context);
-void sortSelection(unsigned* arr,unsigned size,void(*callBack)(Context*),Context* context);
+typedef void(*sortFunction)(Array*,void(*)(Context*),Context*);
+
+
+
+void sortBubble(Array* array,void(*callBack)(Context*),Context* context);
+void sortSelection(Array* array,void(*callBack)(Context*),Context* context);
