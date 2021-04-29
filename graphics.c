@@ -10,4 +10,5 @@ void createWindow()
                                        SDL_WINDOWPOS_CENTERED,
                                        SDL_WINDOWPOS_CENTERED,
                                        500, 500, 0);
+
 }
