@@ -1,14 +1,6 @@
 #pragma once
+#include "types.h"
 
-typedef struct {
-
-} Context;
-
-typedef struct{
-  unsigned* data;
-  unsigned size;
-
-}Array;
 
 typedef void(*sortFunction)(Array*,void(*)(Context*),Context*);
 
