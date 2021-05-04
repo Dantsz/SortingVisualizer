@@ -1,11 +1,10 @@
 //
 // Created by Dan on 4/28/2021.
-//
-#include "SDL_render.h"
-#include "SDL_timer.h"
+
 #include <stdio.h>
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
+#include <SDL_render.h>
 #include "sorting.h"
 #include "graphics.h"
 

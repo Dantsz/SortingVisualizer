@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 project(SortingVisualizer)
-add_executable(SortingVisualizer main.c graphics.c graphics.h sorting.h  )
+add_executable(SortingVisualizer main.c graphics.c graphics.h sorting.h types.h  )
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_FLAGS  "-Wall -Wextra -Wpedantic -Wno-language-extension-token" )
 target_include_directories( SortingVisualizer PRIVATE "SDL2/include/" )
