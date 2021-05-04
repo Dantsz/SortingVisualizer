@@ -1,7 +1,6 @@
 #pragma once
 #include "types.h"
 
-
 typedef void(*sortFunction)(Array*,void(*)(Context*),Context*);
 
 
