@@ -17,3 +17,5 @@ Window* createWindow(unsigned width,unsigned height,const char* name)
     return window;
 
 }
+
+
