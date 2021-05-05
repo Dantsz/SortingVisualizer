@@ -30,8 +30,8 @@ void draw(Array* array,Context* context){
         SDL_FRect rect;
         rect.w = rectWidth;
         rect.x = rectWidth * index;
-        rect.y = context->window->height - (rectWidth*i);
-        rect.h = rectWidth*i;
+        rect.y = context->window->height - (rectWidth*(array->data[index]+1));
+        rect.h = rectWidth*(array->data[index]+1);
         SDL_SetRenderDrawColor(context->window->renderer, 255, 255, 255, 255);
         SDL_RenderFillRectF(context->window->renderer,&rect);
         SDL_SetRenderDrawColor(context->window->renderer, 100, 100, 100, 255);
