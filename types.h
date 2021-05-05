@@ -1,5 +1,5 @@
 #pragma once
-#include "SDL_render.h"
+#include <SDL_render.h>
 typedef struct{
     SDL_Window* sdlWindow;
     SDL_Renderer* renderer;
@@ -9,7 +9,7 @@ typedef struct{
 
 
 typedef struct {
-
+  Window* window;
 } Context;
 
 typedef struct{
