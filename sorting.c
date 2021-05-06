@@ -1,6 +1,6 @@
 #include "sorting.h"
 #include <stdlib.h>
-
+#include "SDL_timer.h"
 //Merge Sort Algorithm
 static void merge(Array* array, unsigned middle, unsigned left, unsigned right,void(*callBack)(Context*),Context* context)
 {
@@ -34,6 +34,7 @@ static void merge(Array* array, unsigned middle, unsigned left, unsigned right,v
     while(i < n1)
     {
         array->data[k] = v1[i];
+        context->array = array;
         callBack(context);
         i++;
         k++;
@@ -41,6 +42,7 @@ static void merge(Array* array, unsigned middle, unsigned left, unsigned right,v
     while(j < n2)
     {
         array->data[k] = v2[j];
+        context->array = array;
         callBack(context);
         j++;
         k++;
@@ -59,6 +61,9 @@ static void mergeSorting(Array* array, unsigned left, unsigned right,void(*callB
 void mergeSort(Array* array, void(*callBack)(Context*),Context* context)
 {
     mergeSorting(array,0,array->size-1,callBack,context);
+    //done
+    context->done = 1;
+    callBack(context);
 }
 
 //Quick Sort Algorithm
@@ -77,6 +82,7 @@ static unsigned pivot(Array* array,unsigned left, unsigned right,void(*callBack)
             array->data[index] = array->data[i];
             // aici nu apelam callback deoarece ne dorim sa ne arate pe ecran direct liniile inversate
             array->data[i] = aux;
+            context->array = array;
             callBack(context); // se face o modificare deci reapelam modificarea ecranului
 
         }
@@ -84,6 +90,7 @@ static unsigned pivot(Array* array,unsigned left, unsigned right,void(*callBack)
     aux = array->data[index + 1];
     array->data[index + 1] = array->data[right];
     array->data[right] = aux;
+    context->array = array;
     callBack(context); // se face o modificare deci reapelam modificarea ecranului
     return index + 1;
 }
@@ -93,7 +100,9 @@ static void quickSorting(Array* array,unsigned left,unsigned right,void(*callBac
     if(left < right)
     {
         unsigned piv = pivot(array, left, right,callBack,context);
+        if(piv > left)
         quickSorting(array, left, piv - 1,callBack,context);
+        if(piv < right)
         quickSorting(array, piv + 1, right,callBack,context);
     }
 }
@@ -101,6 +110,9 @@ static void quickSorting(Array* array,unsigned left,unsigned right,void(*callBac
 void quickSort(Array* array, void(*callBack)(Context*),Context* context)
 {
     quickSorting(array,0,array->size-1,callBack,context);
+    //done
+    context->done = 1;
+    callBack(context);
 }
 
 //Selection Sort Algorithm
@@ -131,7 +143,8 @@ void selectionSort(Array* array,void(*callBack)(Context*),Context* context){
            swap(&array->data[min],&array->data[i]);
            callBack(context);// dupa ce am modificat ceva trimitem la ecran pentru a modifica grafica
        }
-
+    context->done = 1;
+    callBack(context);
 }
 
 // Insertion Sort Algorithm
@@ -142,7 +155,7 @@ void insertionSort(Array* array, void(*callBack)(Context*),Context* context)
     for(unsigned i = 1; i < array->size; i++)
     {
         elem = array->data[i];
-        unsigned j = i - 1;
+        int j = i - 1;
         while(j >= 0 && elem < array->data[j])
         {
             array->data[j+1] = array->data[j];
@@ -153,4 +166,9 @@ void insertionSort(Array* array, void(*callBack)(Context*),Context* context)
         callBack(context);
 
     }
+    //done
+    context->done = 1;
+    callBack(context);
+
+
 }

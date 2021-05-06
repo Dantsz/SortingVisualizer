@@ -1,11 +1,10 @@
 #include "graphics.h"
 
-
-
 #include <SDL.h>
 #include <SDL_render.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 Window* createWindow(unsigned width,unsigned height,const char* name)
 {
@@ -24,6 +23,7 @@ Window* createWindow(unsigned width,unsigned height,const char* name)
 void draw(Array* array,Context* context){
 
     unsigned rectWidth = context->window->width/array->size;// width of an box
+
     for(unsigned i = 1 ; i <= array->size ; i ++)
     {
         unsigned index = i -1;
@@ -32,7 +32,10 @@ void draw(Array* array,Context* context){
         rect.x = rectWidth * index;
         rect.y = context->window->height - (rectWidth*(array->data[index]+1));
         rect.h = rectWidth*(array->data[index]+1);
-        SDL_SetRenderDrawColor(context->window->renderer, 255, 255, 255, 255);
+        if(context->done == 1)
+            SDL_SetRenderDrawColor(context->window->renderer, 0, 255, 0, 255);
+        else
+            SDL_SetRenderDrawColor(context->window->renderer, 255, 255, 255, 255);
         SDL_RenderFillRectF(context->window->renderer,&rect);
         SDL_SetRenderDrawColor(context->window->renderer, 100, 100, 100, 255);
         SDL_RenderDrawRectF(context->window->renderer,&rect);

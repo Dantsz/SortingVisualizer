@@ -15,5 +15,6 @@ typedef struct{
 typedef struct {
   Window* window;
   Array* array;
+  int done;
 } Context;
 

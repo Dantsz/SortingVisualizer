@@ -6,7 +6,6 @@
 #include <stdio.h>
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
-#include <SDL_render.h>
 #include "sorting.h"
 #include "graphics.h"
 
@@ -24,23 +23,22 @@ int main(int argc, char *argv[])
     Context context;
     Window* window = createWindow(500,500,"Sorting");
     Array*  array = malloc(sizeof(Array));
-    array->size = 10;
+    array->size = 50;
     array->data = malloc(array->size*sizeof(unsigned));
     for(unsigned  i = 0 ; i < array->size;i++)
     {
         array->data[i] = rand() % array->size;
+        printf("%u ",array->data[i]);
     }
     context.window = window;
     context.array = array;
-
-
+    context.done = 0;
     callBack(&context);
    
-    mergeSort(array,callBack,&context);
-
+    selectionSort(array,callBack,&context);
 
     while(1){
-     callBack(&context);
+        callBack(&context);
     }
 
 
