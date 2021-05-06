@@ -19,13 +19,13 @@ static void merge(Array* array, unsigned middle, unsigned left, unsigned right,v
         if(v1[i]< v2[j])
         {
             array->data[k] = v1[i];
-            //callBack(context); //aici se modifica ceva si trebuie printat pe ecran;
+            callBack(context); //aici se modifica ceva si trebuie printat pe ecran;
             i++;
         }
         else
         {
             array->data[k] = v2[j];
-            //callBack(context);//aici se modifica ceva si trebuie printat pe ecran;
+            callBack(context);//aici se modifica ceva si trebuie printat pe ecran;
             j++;
         }
         k++;
@@ -34,14 +34,14 @@ static void merge(Array* array, unsigned middle, unsigned left, unsigned right,v
     while(i < n1)
     {
         array->data[k] = v1[i];
-        //callBack(context);
+        callBack(context);
         i++;
         k++;
     }
     while(j < n2)
     {
         array->data[k] = v2[j];
-        //callBack(context);
+        callBack(context);
         j++;
         k++;
     }
@@ -77,14 +77,14 @@ static unsigned pivot(Array* array,unsigned left, unsigned right,void(*callBack)
             array->data[index] = array->data[i];
             // aici nu apelam callback deoarece ne dorim sa ne arate pe ecran direct liniile inversate
             array->data[i] = aux;
-            //callBack(context); // se face o modificare deci reapelam modificarea ecranului
+            callBack(context); // se face o modificare deci reapelam modificarea ecranului
 
         }
     }
     aux = array->data[index + 1];
     array->data[index + 1] = array->data[right];
     array->data[right] = aux;
-    //callBack(context); // se face o modificare deci reapelam modificarea ecranului
+    callBack(context); // se face o modificare deci reapelam modificarea ecranului
     return index + 1;
 }
 

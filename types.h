@@ -6,14 +6,14 @@ typedef struct{
     unsigned width,height;
     const char* name;
 }Window;
-
-
-typedef struct {
-  Window* window;
-} Context;
-
 typedef struct{
   unsigned* data;
   unsigned size;
 
 }Array;
+
+typedef struct {
+  Window* window;
+  Array* array;
+} Context;
+

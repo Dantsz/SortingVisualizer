@@ -2,6 +2,7 @@
 // Created by Dan on 4/28/2021.
 
 #include "SDL_events.h"
+#include "SDL_timer.h"
 #include <stdio.h>
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
@@ -11,7 +12,10 @@
 
 void callBack(Context* context)
 {
-
+     SDL_RenderClear(context->window->renderer);
+     draw(context->array,context);
+     SDL_RenderPresent(context->window->renderer);
+     SDL_Delay(50); /**/
 }
 
 int main(int argc, char *argv[])
@@ -24,16 +28,19 @@ int main(int argc, char *argv[])
     array->data = malloc(array->size*sizeof(unsigned));
     for(unsigned  i = 0 ; i < array->size;i++)
     {
-        array->data[i] = i;
+        array->data[i] = rand() % array->size;
     }
     context.window = window;
-    while(1){
-     SDL_RenderClear(window->renderer);
-     
-     draw(array,&context);
+    context.array = array;
+
+
+    callBack(&context);
    
-     SDL_RenderPresent(window->renderer); 
-    
+    mergeSort(array,callBack,&context);
+
+
+    while(1){
+     callBack(&context);
     }
 
 
