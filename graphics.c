@@ -24,9 +24,9 @@ Window* createWindow(unsigned width,unsigned height,const char* name)
 void draw(Array* array,Context* context){
 
     unsigned rectWidth = context->window->width/array->size;// width of an box
-    for(int i = 1 ; i <= array->size ; i ++)
+    for(unsigned i = 1 ; i <= array->size ; i ++)
     {
-        int index = i -1;
+        unsigned index = i -1;
         SDL_FRect rect;
         rect.w = rectWidth;
         rect.x = rectWidth * index;
