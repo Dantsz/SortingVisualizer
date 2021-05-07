@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     for(unsigned  i = 0 ; i < array->size;i++)
     {
         array->data[i] = rand() % array->size;
-        printf("%u ",array->data[i]);
+        //printf("%u ",array->data[i]);
     }
     context.window = window;
     context.array = array;
