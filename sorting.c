@@ -1,5 +1,6 @@
 #include "sorting.h"
 #include <stdlib.h>
+#include <windows.h>
 #include "SDL_timer.h"
 //Merge Sort Algorithm
 static void merge(Array* array, unsigned middle, unsigned left, unsigned right,void(*callBack)(Context*),Context* context)
@@ -143,6 +144,7 @@ void selectionSort(Array* array,void(*callBack)(Context*),Context* context){
            swap(&array->data[min],&array->data[i]);
            callBack(context);// dupa ce am modificat ceva trimitem la ecran pentru a modifica grafica
        }
+       Sleep(5);
     context->done = 1;
     callBack(context);
 }

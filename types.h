@@ -16,5 +16,8 @@ typedef struct {
   Window* window;
   Array* array;
   int done;
+  unsigned MenuBack;
+  unsigned menuSize;
+  unsigned SortChoose;
 } Context;
 
