@@ -15,7 +15,11 @@ typedef struct{
 typedef struct {
   Window* window;
   Array* array;
+  unsigned delay;//delay between sorting actions
+
   int done;
+
+
   unsigned MenuBack;
   unsigned menuSize;
   unsigned SortChoose;

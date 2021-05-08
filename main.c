@@ -14,7 +14,7 @@ void callBack(Context* context)
      SDL_RenderClear(context->window->renderer);
      draw(context->array,context);
      SDL_RenderPresent(context->window->renderer);
-     SDL_Delay(5); /**/
+     SDL_Delay(context->delay); /**/
 }
 void rearrangeVect(Array *array) {
     for(unsigned  i = 0 ; i < array->size;i++)
@@ -67,19 +67,12 @@ void SortSelect(Array *array,void(*callBack)(Context*), Context *context) {
     callBack(context);
 }
 
-/*void Menu(Context* context)
-{
-    SDL_RenderClear(context->window->renderer);
-    drawMenu(context);
-    SDL_RenderPresent(context->window->renderer);
-    SDL_Delay(50); /*
-    */
-
 
 int main(int argc, char *argv[])
 {
 
     Context context;
+    context.delay = 50;
     Window* window = createWindow(500,500,"Sorting");
 
     Array*  menuArr = malloc(sizeof(Array));
