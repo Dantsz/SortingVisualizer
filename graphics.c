@@ -1,5 +1,5 @@
 #include "graphics.h"
-#include <SDL_ttf.h>
+//#include <SDL_ttf.h>
 
 #include <SDL.h>
 #include <SDL_render.h>
@@ -21,7 +21,7 @@ Window* createWindow(unsigned width,unsigned height,const char* name)
     return window;
 
 }
-void mouse(Context *context, unsigned ButtonWidth, unsigned ButtonHeight)
+int mouse(Context *context, unsigned ButtonWidth, unsigned ButtonHeight)
 {
     SDL_Event mouse;
     while (SDL_PollEvent(&mouse))
@@ -29,13 +29,12 @@ void mouse(Context *context, unsigned ButtonWidth, unsigned ButtonHeight)
         if(mouse.button.clicks == 1)
             if(mouse.button.x <= 10 + ButtonWidth && mouse.button.x > 10 && mouse.button.y <= 10 + ButtonHeight && mouse.button.y > 10)
             {
-                context->MenuBack = 1;
-                break;
+               return 1;
             }
     }
-
+    return 0;
 }
-void drawBackButton(Context *context){
+int drawBackButton(Context *context){
 
 
 /*
@@ -75,7 +74,7 @@ void drawBackButton(Context *context){
     SDL_SetRenderDrawColor(context->window->renderer, 0, 255, 0, 255);
     SDL_RenderFillRectF(context->window->renderer,&button);
     SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
-    mouse(context,ButtonWidth,ButtonHeight);
+    return mouse(context,ButtonWidth,ButtonHeight);
 
 
 }
@@ -90,7 +89,8 @@ static void drawMenuButtons(Context* context, int h,int w, int x,int y)
     SDL_RenderFillRectF(context->window->renderer,&button);
     SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
 }
-void drawMenu(Context* context){
+int drawMenu(Context* context){
+    SDL_RenderClear(context->window->renderer);
     SDL_FRect title;
     title.h = context->window->height/10;
     title.w = context->window->width/3;
@@ -111,8 +111,11 @@ void drawMenu(Context* context){
         drawMenuButtons(context, h, w, x, y);
 
     }
-    choices(context,distance);
-
+  
+    
+   
+    SDL_RenderPresent(context->window->renderer);
+    return choices(context,distance);
 
 }
 
@@ -129,11 +132,15 @@ void draw(Array* array,Context* context){
         rect.y = context->window->height - (rectWidth*(array->data[index]+1));
         rect.h = rectWidth*(array->data[index]+1);
         if(context->done == 1)
-        {
-            SDL_SetRenderDrawColor(context->window->renderer, 0, 255, 0, 255);
-            SDL_RenderFillRectF(context->window->renderer, &rect);
-            SDL_SetRenderDrawColor(context->window->renderer, 0, 100, 0, 255);
-            drawBackButton(context);
+        {   
+            
+             
+          SDL_SetRenderDrawColor(context->window->renderer, 0, 255, 0, 255);
+          SDL_RenderFillRectF(context->window->renderer, &rect);
+          SDL_SetRenderDrawColor(context->window->renderer, 0, 100, 0, 255);
+                
+            
+           
         }
         else {
             SDL_SetRenderDrawColor(context->window->renderer, 255, 255, 255, 255);
@@ -146,7 +153,7 @@ void draw(Array* array,Context* context){
 
 }
 
-void choices(Context* context, unsigned distance)
+int choices(Context* context, unsigned distance)
 {
     int w = context->window->width/(2 * context->menuSize);
     int h = w - w/6;
@@ -169,8 +176,8 @@ void choices(Context* context, unsigned distance)
                     // alegem ce tip de sort vrem sa faca in acelasi timp in care trebuie sa marcam schimbarea meniului catre pagina de drawing
                     //Deci problema care apare e ca daca vrei sa alegi un anumit tip de sorting chiar daca il apesi pe ala o sa ti-l faca pe cel ales anterior
                     // si dupa ce il alegi a doua oara o sa il faca pe ala corect.
-                    printf("SortChoose %u \n",i);
-                    break;
+                    return i; 
+                    
                 }
 
             }
@@ -179,6 +186,7 @@ void choices(Context* context, unsigned distance)
 
         }
     }
+    return -1;
 }
 
 
