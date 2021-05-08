@@ -8,7 +8,7 @@
 #include <SDL.h>
 #include "sorting.h"
 #include "graphics.h"
-
+#include "menu.h"
 void callBack(Context* context)
 {
      SDL_RenderClear(context->window->renderer);
