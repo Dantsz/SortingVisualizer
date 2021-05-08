@@ -31,7 +31,6 @@ void SortSelect(Array *array,void(*callBack)(Context*), Context *context) {
             case 0:
                 rearrangeVect(array);
                 context->done = 0;
-                
                 selectionSort(array, callBack, context);//Probleme la slectionSort : Se face prea rapid si nu apucam sa vedem inceputul
                                                         // Si pare mereu ca e deja jumatate sortat.
                                                         //Nici chestia asta nu stiu cum sa o rezolv, cu delay sau sleep nu merge
@@ -86,7 +85,6 @@ int main(int argc, char *argv[])
     for(unsigned  i = 0 ; i < array->size;i++)
     {
         array->data[i] = rand() % array->size;
-        //printf("%u ",array->data[i]);
     }
     context.window = window;
     context.array = array;
@@ -109,7 +107,7 @@ int main(int argc, char *argv[])
          do{
           SDL_RenderClear(context.window->renderer);
           draw(array,&context);
-          btnDone = drawBackButton(context);
+          btnDone = drawBackButton(&context);
           SDL_RenderPresent(context.window->renderer);
          }while(btnDone == 0);
         

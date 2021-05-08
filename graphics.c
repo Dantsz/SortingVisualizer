@@ -6,6 +6,7 @@
 #include <SDL_render.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "menu.h"
 #include <string.h>
 
 Window* createWindow(unsigned width,unsigned height,const char* name)
@@ -22,21 +23,6 @@ Window* createWindow(unsigned width,unsigned height,const char* name)
     return window;
 
 }
-
-int mouse(Context *context, unsigned ButtonWidth, unsigned ButtonHeight)
-{
-    SDL_Event mouse;
-    while (SDL_PollEvent(&mouse))
-    {
-        if(mouse.button.clicks == 1)
-            if(mouse.button.x <= 10 + ButtonWidth && mouse.button.x > 10 && mouse.button.y <= 10 + ButtonHeight && mouse.button.y > 10)
-            {
-               return 1;
-            }
-    }
-    return 0;
-}
-
 
 void draw(Array* array,Context* context){
 
@@ -66,6 +52,7 @@ void draw(Array* array,Context* context){
         SDL_RenderDrawRectF(context->window->renderer,&rect);
         SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
     }
+
 
 }
 

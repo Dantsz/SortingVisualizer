@@ -1,5 +1,6 @@
 #include "menu.h"
 #include <SDL.h>
+
 int choices(Context* context, unsigned distance)
 {
     int w = context->window->width/(2 * context->menuSize);
@@ -34,6 +35,19 @@ int choices(Context* context, unsigned distance)
         }
     }
     return -1;
+}
+int mouse(Context *context, unsigned ButtonWidth, unsigned ButtonHeight)
+{
+    SDL_Event mouse;
+    while (SDL_PollEvent(&mouse))
+    {
+        if(mouse.button.clicks == 1)
+            if(mouse.button.x <= 10 + ButtonWidth && mouse.button.x > 10 && mouse.button.y <= 10 + ButtonHeight && mouse.button.y > 10)
+            {
+                return 1;
+            }
+    }
+    return 0;
 }
 int drawBackButton(Context *context){
 
