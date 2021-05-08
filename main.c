@@ -39,21 +39,19 @@ void SortSelect(Array *array,void(*callBack)(Context*), Context *context) {
             case 1:
                 rearrangeVect(array);
                 context->done = 0;
-          
                 insertionSort(array, callBack, context);
 
                 break;
             case 2:
                 rearrangeVect(array);
                 context->done = 0;
-   
                 quickSort(array, callBack, context);
                 break;
             case 3:
                 rearrangeVect(array);
                 context->done = 0;
-            
                 mergeSort(array, callBack, context);
+                break;
             case 4:
                  context->done = 0;
                 //callBack(context);

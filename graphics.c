@@ -133,14 +133,11 @@ void draw(Array* array,Context* context){
         rect.h = rectWidth*(array->data[index]+1);
         if(context->done == 1)
         {   
-            
-             
+
           SDL_SetRenderDrawColor(context->window->renderer, 0, 255, 0, 255);
           SDL_RenderFillRectF(context->window->renderer, &rect);
           SDL_SetRenderDrawColor(context->window->renderer, 0, 100, 0, 255);
-                
-            
-           
+              
         }
         else {
             SDL_SetRenderDrawColor(context->window->renderer, 255, 255, 255, 255);
