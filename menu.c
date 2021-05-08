@@ -2,36 +2,49 @@
 #include "SDL_events.h"
 #include <SDL.h>
 
-static int handleEvents(Context* context, unsigned distance)
+static int handleMenuEvents(Context* context, unsigned distance)
 {
     int w = context->window->width/(2 * context->menuSize);
     int h = w - w/6;
     int y = context->window->height - context->window->height/4;
     int center = distance / 4;
-    SDL_Event mouse;
+    SDL_Event event;
 
-    while (SDL_PollEvent(&mouse))
+    while (SDL_PollEvent(&event))
     {
-        if(mouse.type == SDL_MOUSEBUTTONDOWN && mouse.button.clicks == 1)
+        switch(event.type)
         {
-           for(unsigned i = 0; i < context->menuSize; i++)
-           {
-                if(mouse.button.x > (i * distance + center) && mouse.button.x < (i * distance + center + w) &&
-                        mouse.button.y > y && mouse.button.y < (y + h))
-                {
-                    context->SortChoose = i;
-                    return i;
-                }
-
-            }
-           //Exit mode verification
-            if(mouse.button.x > context->ProgramState.x && mouse.button.x < context->ProgramState.x + context->ProgramState.w &&
-               mouse.button.y > 0 && mouse.button.y < context->ProgramState.h)
+           case SDL_MOUSEBUTTONDOWN : 
+            if(event.button.clicks == 1)
             {
-                context->ProgramState.State = 0;
-                return -1;
-            }
+                for(unsigned i = 0; i < context->menuSize; i++)
+                {
+                        if(event.button.x > (i * distance + center) && event.button.x < (i * distance + center + w) &&
+                                event.button.y > y && event.button.y < (y + h))
+                        {
+                            context->SortChoose = i;
+                            return i;
+                        }
+
+                    }
+                //Exit mode verification
+                    if(event.button.x > context->ProgramState.x && event.button.x < context->ProgramState.x + context->ProgramState.w &&
+                    event.button.y > 0 && event.button.y < context->ProgramState.h)
+                    {
+                        context->ProgramState.State = 0;
+                        return -1;
+                    }
+                }
+            break;
+            case SDL_QUIT :
+               context->ProgramState.State = 0;
+               return -1;
+            break;
+            default:
+            break;
+
         }
+       
     }
     return -1;
 }
