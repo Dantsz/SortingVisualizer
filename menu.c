@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "SDL_events.h"
 #include <SDL.h>
 
 int choices(Context* context, unsigned distance)
@@ -11,7 +12,7 @@ int choices(Context* context, unsigned distance)
 
     while (SDL_PollEvent(&mouse))
     {
-        if(mouse.button.clicks == 1)
+        if(mouse.type == SDL_MOUSEBUTTONDOWN && mouse.button.clicks == 1)
         {
            for(unsigned i = 0; i < context->menuSize; i++)
            {
