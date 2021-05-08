@@ -35,7 +35,7 @@ static int handleEvents(Context* context, unsigned distance)
     }
     return -1;
 }
-int mouse(Context *context, unsigned x,unsigned y, unsigned ButtonWidth, unsigned ButtonHeight)
+static int handleBackButtonEvents(Context *context, unsigned x,unsigned y, unsigned ButtonWidth, unsigned ButtonHeight)
 {
     SDL_Event mouse;
     while (SDL_PollEvent(&mouse))
@@ -88,7 +88,7 @@ int drawBackButton(Context *context){
     SDL_SetRenderDrawColor(context->window->renderer, 0, 255, 0, 255);
     SDL_RenderFillRectF(context->window->renderer,&button);
     SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
-    return mouse(context,button.x, button.y, ButtonWidth,ButtonHeight);
+    return handleBackButtonEvents(context,button.x, button.y, ButtonWidth,ButtonHeight);
 
 
 }
