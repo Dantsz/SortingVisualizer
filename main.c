@@ -24,16 +24,12 @@ void rearrangeVect(Array *array) {
     }
 }
 void SortSelect(Array *array,void(*callBack)(Context*), Context *context) {
-    //callBack(context);
-    
         printf("Actual SortChoose %u \n",context->SortChoose);
         switch (context->SortChoose) {
             case 0:
                 rearrangeVect(array);
                 context->done = 0;
-                selectionSort(array, callBack, context);//Probleme la slectionSort : Se face prea rapid si nu apucam sa vedem inceputul
-                                                        // Si pare mereu ca e deja jumatate sortat.
-                                                        //Nici chestia asta nu stiu cum sa o rezolv, cu delay sau sleep nu merge
+                selectionSort(array, callBack, context);
                 break;
             case 1:
                 rearrangeVect(array);
@@ -53,7 +49,6 @@ void SortSelect(Array *array,void(*callBack)(Context*), Context *context) {
                 break;
             case 4:
                  context->done = 0;
-                //callBack(context);
                 break;
             default:
                 context->done = 0;
@@ -63,7 +58,7 @@ void SortSelect(Array *array,void(*callBack)(Context*), Context *context) {
         
     }
 
-    callBack(context);
+    callBack(context); //este necesar pt back
 }
 
 
@@ -89,7 +84,7 @@ int main(int argc, char *argv[])
     context.window = window;
     context.array = array;
     context.done = 0;
-    context.MenuBack = 1;
+    context.ProgramState.State = 1;//
     context.menuSize = 4;
     context.SortChoose = 0;
    // callBack(&context);
@@ -97,7 +92,7 @@ int main(int argc, char *argv[])
 
     int btnDone = 0;
      
-    while(1){
+    while(context.ProgramState.State!=0){
       // SortSelect(array,callBack,&context);
       int sortType = drawMenu(&context);
       if(sortType != -1)

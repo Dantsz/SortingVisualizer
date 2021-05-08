@@ -8,6 +8,7 @@ int choices(Context* context, unsigned distance)
     int y = context->window->height - context->window->height/4;
     int center = distance / 4;
     SDL_Event mouse;
+
     while (SDL_PollEvent(&mouse))
     {
         if(mouse.button.clicks == 1)
@@ -17,32 +18,29 @@ int choices(Context* context, unsigned distance)
                 if(mouse.button.x > (i * distance + center) && mouse.button.x < (i * distance + center + w) &&
                         mouse.button.y > y && mouse.button.y < (y + h))
                 {
-                    context->MenuBack = 0;
                     context->SortChoose = i;
-                    //aici am probleme de timing pe care nu stiu cum sa le rezolv momentan
-                    //ideea e ca atunci cand apesi pe un buton ca sa selectezi un anumit tip de sort avem nevoie sa trimitem optiunea prin
-                    // alegem ce tip de sort vrem sa faca in acelasi timp in care trebuie sa marcam schimbarea meniului catre pagina de drawing
-                    //Deci problema care apare e ca daca vrei sa alegi un anumit tip de sorting chiar daca il apesi pe ala o sa ti-l faca pe cel ales anterior
-                    // si dupa ce il alegi a doua oara o sa il faca pe ala corect.
-                    return i; 
-                    
+                    return i;
                 }
 
             }
-
-
-
+           //Exit mode verification
+            if(mouse.button.x > context->ProgramState.x && mouse.button.x < context->ProgramState.x + context->ProgramState.w &&
+               mouse.button.y > 0 && mouse.button.y < context->ProgramState.h)
+            {
+                context->ProgramState.State = 0;
+                return -1;
+            }
         }
     }
     return -1;
 }
-int mouse(Context *context, unsigned ButtonWidth, unsigned ButtonHeight)
+int mouse(Context *context, unsigned x,unsigned y, unsigned ButtonWidth, unsigned ButtonHeight)
 {
     SDL_Event mouse;
     while (SDL_PollEvent(&mouse))
     {
         if(mouse.button.clicks == 1)
-            if(mouse.button.x <= 10 + ButtonWidth && mouse.button.x > 10 && mouse.button.y <= 10 + ButtonHeight && mouse.button.y > 10)
+            if(mouse.button.x <= x + ButtonWidth && mouse.button.x > x && mouse.button.y <= y + ButtonHeight && mouse.button.y > y)
             {
                 return 1;
             }
@@ -89,7 +87,7 @@ int drawBackButton(Context *context){
     SDL_SetRenderDrawColor(context->window->renderer, 0, 255, 0, 255);
     SDL_RenderFillRectF(context->window->renderer,&button);
     SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
-    return mouse(context,ButtonWidth,ButtonHeight);
+    return mouse(context,button.x, button.y, ButtonWidth,ButtonHeight);
 
 
 }
@@ -104,8 +102,28 @@ static void drawMenuButtons(Context* context, int h,int w, int x,int y)
     SDL_RenderFillRectF(context->window->renderer,&button);
     SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
 }
+static void drawExitButton(Context* context)
+{
+    SDL_FRect exitButton;
+    exitButton.h = context->window->height/20;
+    exitButton.w = context->window->width/10;
+    exitButton.x = context->window->width - exitButton.w;
+    exitButton.y = 0;
+
+    SDL_SetRenderDrawColor(context->window->renderer, 255, 0, 0, 255);
+    SDL_RenderFillRectF(context->window->renderer,&exitButton);
+    SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
+
+    //Este necesar pentru exit mode ca sa il adaug in choices
+    context->ProgramState.h = exitButton.h;
+    context->ProgramState.w = exitButton.w;
+    context->ProgramState.x = exitButton.x;
+    context->ProgramState.y =0;
+
+}
 int drawMenu(Context* context){
     SDL_RenderClear(context->window->renderer);
+   drawExitButton(context);
     SDL_FRect title;
     title.h = context->window->height/10;
     title.w = context->window->width/3;
@@ -114,6 +132,7 @@ int drawMenu(Context* context){
     SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 100, 255);
     SDL_RenderFillRectF(context->window->renderer,&title);
     SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
+
     int w = context->window->width/(2 * context->menuSize);
     int h = w - w/6;
     int distance = 2 * w;
@@ -124,12 +143,7 @@ int drawMenu(Context* context){
     {
         x = distance * i + center;
         drawMenuButtons(context, h, w, x, y);
-
     }
-  
-    
-   
     SDL_RenderPresent(context->window->renderer);
     return choices(context,distance);
-
 }

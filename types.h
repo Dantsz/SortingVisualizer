@@ -11,16 +11,18 @@ typedef struct{
   unsigned size;
 
 }Array;
-
+typedef struct{
+    unsigned h,w;
+    unsigned x,y;
+    int State;
+}ExitButton;
 typedef struct {
   Window* window;
   Array* array;
   unsigned delay;//delay between sorting actions
 
   int done;
-
-
-  unsigned MenuBack;
+  ExitButton ProgramState;// running or exit state
   unsigned menuSize;
   unsigned SortChoose;
 } Context;
