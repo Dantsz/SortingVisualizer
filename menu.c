@@ -2,7 +2,7 @@
 #include "SDL_events.h"
 #include <SDL.h>
 
-int choices(Context* context, unsigned distance)
+static int choices(Context* context, unsigned distance)
 {
     int w = context->window->width/(2 * context->menuSize);
     int h = w - w/6;
