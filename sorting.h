@@ -1,10 +1,6 @@
 #pragma once
 #include "types.h"
 
-typedef void(*sortFunction)(Array*,void(*)(Context*),Context*);
-
-
-
 void bubbleSort(Array* array,void(*callBack)(Context*),Context* context);
 //Cele de jos sunt implementate deja;
 void selectionSort(Array* array,void(*callBack)(Context*),Context* context);

@@ -27,17 +27,11 @@ static int handleMenuEvents(Context* context, unsigned distance)
                         }
 
                     }
-                //Exit mode verification
-                    if(event.button.x > context->ProgramState.x && event.button.x < context->ProgramState.x + context->ProgramState.w &&
-                    event.button.y > 0 && event.button.y < context->ProgramState.h)
-                    {
-                        context->ProgramState.State = 0;
-                        return -1;
-                    }
+
                 }
             break;
             case SDL_QUIT :
-               context->ProgramState.State = 0;
+               context->ProgramState = 0;
                return -1;
             break;
             default:
@@ -116,28 +110,9 @@ static void drawMenuButtons(Context* context, int h,int w, int x,int y)
     SDL_RenderFillRectF(context->window->renderer,&button);
     SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
 }
-static void drawExitButton(Context* context)
-{
-    SDL_FRect exitButton;
-    exitButton.h = context->window->height/20;
-    exitButton.w = context->window->width/10;
-    exitButton.x = context->window->width - exitButton.w;
-    exitButton.y = 0;
 
-    SDL_SetRenderDrawColor(context->window->renderer, 255, 0, 0, 255);
-    SDL_RenderFillRectF(context->window->renderer,&exitButton);
-    SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);
-
-    //Este necesar pentru exit mode ca sa il adaug in choices
-    context->ProgramState.h = exitButton.h;
-    context->ProgramState.w = exitButton.w;
-    context->ProgramState.x = exitButton.x;
-    context->ProgramState.y =0;
-
-}
 int drawMenu(Context* context){
     SDL_RenderClear(context->window->renderer);
-   drawExitButton(context);
     SDL_FRect title;
     title.h = context->window->height/10;
     title.w = context->window->width/3;
@@ -159,5 +134,5 @@ int drawMenu(Context* context){
         drawMenuButtons(context, h, w, x, y);
     }
     SDL_RenderPresent(context->window->renderer);
-    return handleEvents(context,distance);
+    return handleMenuEvents(context,distance);
 }
