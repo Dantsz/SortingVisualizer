@@ -30,7 +30,6 @@ void SortSelect(Array *array,void(*callBack)(Context*), Context *context) {
         rearrangeVect(array);
         context->done = 0;
         sorting[context->SortChoose](array,callBack,context);
-
 /*
         switch (context->SortChoose) {
             case 0:

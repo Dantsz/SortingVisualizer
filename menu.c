@@ -135,4 +135,5 @@ int drawMenu(Context* context){
     }
     SDL_RenderPresent(context->window->renderer);
     return handleMenuEvents(context,distance);
+
 }

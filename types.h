@@ -16,8 +16,8 @@ typedef struct {
   Window* window;
   Array* array;
   unsigned delay;//delay between sorting actions
-
   int done;
+
   int ProgramState;// running or exit state
   unsigned menuSize;
   unsigned SortChoose;
