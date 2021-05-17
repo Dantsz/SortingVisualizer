@@ -23,7 +23,13 @@ Window* createWindow(unsigned width,unsigned height,const char* name)
     return window;
 
 }
-
+static int exists(Context *context,unsigned index)
+{
+    for (unsigned i = 0; i < context->selected->size;i++)
+        if(index == context->selected->data[i])
+            return 1;
+        return 0;
+}
 void draw(Array* array,Context* context){
 
     unsigned rectWidth = context->window->width/array->size;// width of an box
@@ -36,6 +42,7 @@ void draw(Array* array,Context* context){
         rect.x = rectWidth * index ;
         rect.y = context->window->height - (rectWidth*(array->data[index]+1));
         rect.h = rectWidth*(array->data[index]+1);
+
         if(context->done == 1)
         {   
 
@@ -45,9 +52,17 @@ void draw(Array* array,Context* context){
               
         }
         else {
-            SDL_SetRenderDrawColor(context->window->renderer, 255, 255, 255, 255);
-            SDL_RenderFillRectF(context->window->renderer, &rect);
-            SDL_SetRenderDrawColor(context->window->renderer, 100, 100, 100, 255);
+            if(exists(context,index) == 1 && index != 0)
+            {
+                SDL_SetRenderDrawColor(context->window->renderer, 255, 0, 0, 255);
+                SDL_RenderFillRectF(context->window->renderer, &rect);
+                SDL_SetRenderDrawColor(context->window->renderer, 100, 0, 0, 255);
+            }
+            else {
+                SDL_SetRenderDrawColor(context->window->renderer, 255, 255, 255, 255);
+                SDL_RenderFillRectF(context->window->renderer, &rect);
+                SDL_SetRenderDrawColor(context->window->renderer, 100, 100, 100, 255);
+            }
         }
         SDL_RenderDrawRectF(context->window->renderer,&rect);
         SDL_SetRenderDrawColor(context->window->renderer, 0, 0, 0, 255);

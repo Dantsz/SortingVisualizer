@@ -1,7 +1,23 @@
 #include "sorting.h"
 #include <stdlib.h>
-
 #include "SDL_timer.h"
+static void push(Array *arr, unsigned val)
+{
+    unsigned i = 0;
+    while(arr->data[i] != 0 && i < arr->size)
+        i++;
+    if(i < arr->size)
+        arr->data[i] = val;
+}
+static void del(Array *arr, unsigned val)
+{
+    unsigned i = 0;
+    while(arr->data[i] != val && i < arr->size)
+        i++;
+    for(unsigned j = i; j < arr->size - 1; j++)
+        arr->data[j] = arr->data[j+1];
+
+}
 //Merge Sort Algorithm
 static void merge(Array* array, unsigned middle, unsigned left, unsigned right,void(*callBack)(Context*),Context* context)
 {
@@ -20,13 +36,22 @@ static void merge(Array* array, unsigned middle, unsigned left, unsigned right,v
         if(v1[i]< v2[j])
         {
             array->data[k] = v1[i];
-            callBack(context); //aici se modifica ceva si trebuie printat pe ecran;
+            push(context->selected,i);
+            push(context->selected,k);
+            callBack(context);//aici se modifica ceva si trebuie printat pe ecran;
+            del(context->selected,i);
+            del(context->selected,k);
             i++;
         }
         else
         {
             array->data[k] = v2[j];
+            push(context->selected,j);
+            push(context->selected,k);
             callBack(context);//aici se modifica ceva si trebuie printat pe ecran;
+            del(context->selected,j);
+            del(context->selected,k);
+
             j++;
         }
         k++;
@@ -36,7 +61,11 @@ static void merge(Array* array, unsigned middle, unsigned left, unsigned right,v
     {
         array->data[k] = v1[i];
         context->array = array;
+        push(context->selected,i);
+        push(context->selected,k);
         callBack(context);
+        del(context->selected,i);
+        del(context->selected,k);
         i++;
         k++;
     }
@@ -44,7 +73,11 @@ static void merge(Array* array, unsigned middle, unsigned left, unsigned right,v
     {
         array->data[k] = v2[j];
         context->array = array;
+        push(context->selected,j);
+        push(context->selected,k);
         callBack(context);
+        del(context->selected,j);
+        del(context->selected,k);
         j++;
         k++;
     }
@@ -124,7 +157,7 @@ static void swap(unsigned *a, unsigned *b)
     *a = *b;
     *b = aux;
 }
-static unsigned minim(Array* array, unsigned begin)
+static unsigned minim(Context *context,Array* array, unsigned begin)
 {
    unsigned min = array->data[begin], indexMin = begin;
    for(unsigned i = begin + 1; i < array->size; i++)
@@ -140,9 +173,14 @@ static unsigned minim(Array* array, unsigned begin)
 void selectionSort(Array* array,void(*callBack)(Context*),Context* context){
        for(unsigned i = 0; i < array->size; i++)
        {
-           unsigned min = minim(array,i);
+           unsigned min = minim(context,array,i);
+           push(context->selected,min);
+           push(context->selected,i);
            swap(&array->data[min],&array->data[i]);
            callBack(context);// dupa ce am modificat ceva trimitem la ecran pentru a modifica grafica
+           del(context->selected,min);
+           del(context->selected,i);
+          // callBack(context);
        }
     
     context->done = 1;
@@ -151,22 +189,25 @@ void selectionSort(Array* array,void(*callBack)(Context*),Context* context){
 
 // Insertion Sort Algorithm
 
-
 void insertionSort(Array* array, void(*callBack)(Context*),Context* context)
 {
     unsigned elem;
     for(unsigned i = 1; i < array->size; i++)
     {
         elem = array->data[i];
+        push(context->selected,i);
         int j = i - 1;
         while(j >= 0 && elem < array->data[j])
         {
             array->data[j+1] = array->data[j];
+            push(context->selected,j);
             callBack(context); //aici se modifica un element care trebuie transmis la ecran
+            del(context->selected,j);
             j--;
         }
         array->data[j + 1] = elem;
         callBack(context);
+        del(context->selected,i);
 
     }
     //done
@@ -174,4 +215,31 @@ void insertionSort(Array* array, void(*callBack)(Context*),Context* context)
     callBack(context);
 
 
+}
+//Bubble sort
+void bubbleSort(Array* array, void(*callBack)(Context*),Context* context)
+{
+    unsigned aux;
+    for(unsigned i = 0; i < array->size-1; i++)
+        for(unsigned  j = i + 1; j < array->size; j++)
+        {
+            if(array->data[i] > array->data[j])
+            {
+                aux = array->data[i];
+
+                push(context->selected,i);// adaug elementele ce trebuie colorate in rosu
+                push(context->selected,j);
+
+                array->data[i] = array->data[j];
+                array->data[j] = aux;
+                callBack(context);
+
+                del(context->selected,i);// sterg elementele;
+                del(context->selected,j);
+
+            }
+        }
+
+        context->done = 1;
+        callBack(context);
 }

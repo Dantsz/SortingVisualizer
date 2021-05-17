@@ -26,44 +26,10 @@ void rearrangeVect(Array *array) {
 }
 void SortSelect(Array *array,void(*callBack)(Context*), Context *context) {
         printf("Actual SortChoose %u \n",context->SortChoose);
-        sortFunction sorting[] ={selectionSort,insertionSort,quickSort,mergeSort};
+        sortFunction sorting[] ={selectionSort,insertionSort,quickSort,mergeSort,bubbleSort};
         rearrangeVect(array);
         context->done = 0;
         sorting[context->SortChoose](array,callBack,context);
-/*
-        switch (context->SortChoose) {
-            case 0:
-                rearrangeVect(array);
-                context->done = 0;
-                selectionSort(array, callBack, context);
-                break;
-            case 1:
-                rearrangeVect(array);
-                context->done = 0;
-                insertionSort(array, callBack, context);
-
-                break;
-            case 2:
-                rearrangeVect(array);
-                context->done = 0;
-                quickSort(array, callBack, context);
-                break;
-            case 3:
-                rearrangeVect(array);
-                context->done = 0;
-                mergeSort(array, callBack, context);
-                break;
-            case 4:
-                 context->done = 0;
-                break;
-            default:
-                context->done = 0;
-                rearrangeVect(array);
-                printf("Functiile nu sunt implementate inca!");
-                break;
-        
-    }
-*/
     callBack(context); //este necesar pt back
 }
 
@@ -83,15 +49,22 @@ int main(int argc, char *argv[])
     Array*  array = malloc(sizeof(Array));
     array->size = 50;
     array->data = malloc(array->size*sizeof(unsigned));
+
+    Array *sel = malloc(sizeof (Array));
+    sel->size = array->size;
+    sel->data = calloc(sel->size , sizeof (unsigned ));
+
+
     for(unsigned  i = 0 ; i < array->size;i++)
     {
         array->data[i] = rand() % array->size;
     }
+    context.selected = sel;
     context.window = window;
     context.array = array;
     context.done = 0;
     context.ProgramState = 1;//
-    context.menuSize = 4;
+    context.menuSize = 5;
     context.SortChoose = 0;
    // callBack(&context);
    // selectionSort(array,callBack,&context);
