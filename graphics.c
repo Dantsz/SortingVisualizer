@@ -40,8 +40,12 @@ void draw(Array* array,Context* context){
         SDL_FRect rect;
         rect.w = rectWidth;
         rect.x = rectWidth * index ;
-        rect.y = context->window->height - (rectWidth*(array->data[index]+1));
-        rect.h = rectWidth*(array->data[index]+1);
+
+        float x =  (float)array->data[index]/(float)array->size  ;//ratio between the current number and the largest number
+        float rectY = x * (float)context->window->height;//the height of the current element is proportional to the largest element
+        //largest elements height is always the height of the window
+        rect.y = context->window->height - rectY;
+        rect.h = rectY;
 
         if(context->done == 1)
         {   
